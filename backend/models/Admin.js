@@ -1,19 +1,19 @@
-const mongoose = require("mondoose");
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const adminSchema = new mongoose.Schema({
  
     username: {
         type: String,
-        requireed: [true, "Username Is Required"]
+        required: [true, "Username Is Required"]
     },
      email: {
         type: String,
-        requireed: [true, "email Is Required"]
+        required: [true, "email Is Required"]
     },
      password: {
         type: String,
-        requireed: [true, "password Is Required"],
+        required: [true, "password Is Required"],
         minlength: 6,
     }
 
@@ -21,8 +21,9 @@ const adminSchema = new mongoose.Schema({
 
 adminSchema.pre("save", async function(next) {
 
-    if(!this.isModfied("password") ) return next();
-    this.password = await bcrubt.hash(this.password, 10);
+    if(!this.isModified("password") ) return next();
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
     
 });
 
